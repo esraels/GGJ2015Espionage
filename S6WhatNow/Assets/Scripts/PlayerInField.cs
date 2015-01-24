@@ -1,0 +1,124 @@
+﻿using UnityEngine;
+using System.Collections;
+
+public class PlayerInField : MonoBehaviour {
+
+	enum PlayerAniMove{
+		IDLE,
+		WALK_UP,
+		WALK_DOWN,
+		WALK_RIGHT,
+		WALK_LEFT
+	};
+
+	public float m_speed = 250;
+	//public float m_speedLimit = 5;
+	public Vector2 m_PasscodePos = new Vector2(0,0);
+
+	string m_curPasscode = "";
+
+	Animator m_animator;
+	Transform m_aninode;
+	Transform m_callout;
+	Transform m_camera = null;
+
+	// Use this for initialization
+	void Start () {
+	
+		if(m_camera == null){
+			m_camera = GameObject.Find("Camera").transform;
+		}
+		if(m_animator == null){
+			m_aninode = transform.FindChild("animations");
+			m_animator = m_aninode.gameObject.GetComponent<Animator>();
+		}
+
+		m_callout = transform.FindChild("callout");
+		m_callout.gameObject.SetActive(false); //hide initially
+
+		//m_texCallout = m_callout.GetComponent<SpriteRenderer>().guiTexture.texture as Texture2D;
+
+	}
+	
+	// Update is called once per frame
+	void Update () {
+	
+		//=================================
+		// move the player by user input
+		// note: can collide in walls
+		//---------------------------------
+		Vector3 move;
+		move.x = Input.GetAxis("Horizontal");
+		move.y = Input.GetAxis("Vertical");
+		move.z = 0;
+
+//		if (move.magnitude > m_speedLimit) {
+//			move = move.normalized * (m_speed * Time.deltaTime);
+//		}
+
+		rigidbody2D.velocity = move * (m_speed * Time.deltaTime);
+
+		//=================================
+		// make the camera follow the player
+		//---------------------------------
+		Vector3 newPosCam = transform.position;
+		newPosCam.z = m_camera.position.z;
+
+		m_camera.position = newPosCam;
+
+		//=================================
+		// set animation based on movement
+		//---------------------------------
+		PlayerAniMove aniValue = 0; //default to idle animation
+		float facingLeft = 1;
+		if(Mathf.Abs(move.x) > Mathf.Abs(move.y)){
+			if(move.x > 0){
+				aniValue = PlayerAniMove.WALK_RIGHT;
+				facingLeft = -1;
+			}
+			else if(move.x < 0)
+				aniValue = PlayerAniMove.WALK_LEFT;
+		}
+		else {
+			if(move.y > 0)
+				aniValue = PlayerAniMove.WALK_UP;
+			else if(move.y < 0)
+				aniValue = PlayerAniMove.WALK_DOWN;
+		}
+
+		m_animator.SetInteger("move_dir", (int)aniValue);
+		Vector3 scaleVal = m_aninode.localScale;
+		scaleVal.x =  facingLeft * Mathf.Abs(m_aninode.localScale.x);
+		m_aninode.localScale = scaleVal;
+
+
+	}
+
+	public void OnGUI(){
+		//=================================
+		// Show passcode via unity gui
+		//---------------------------------
+		if(m_curPasscode != ""){
+			Camera cam = m_camera.GetComponent<Camera>();
+			Vector3 screenPos = cam.WorldToScreenPoint(m_callout.position);
+			screenPos.y = Screen.height - screenPos.y;
+
+			Vector2 pos = new Vector2(screenPos.x + m_PasscodePos.x, screenPos.y - m_PasscodePos.y);
+			GUI.Label(new Rect(pos.x, pos.y, 50, 50), m_curPasscode);
+		}
+
+	}
+
+	public void ShowPasscode(string p_passcode){
+
+		m_curPasscode = p_passcode;
+		m_callout.gameObject.SetActive(true);
+
+	}
+
+	public void HidePasscode(){
+		m_curPasscode = "";
+		m_callout.gameObject.SetActive(false);
+	}
+
+}
