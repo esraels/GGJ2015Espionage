@@ -33,6 +33,8 @@ public class NetworkManager : MonoBehaviour
 	
 	private Rect m_serverWindow = new Rect(20, 20, 200, 50);
 	private Rect m_clientWindow = new Rect(20, 90, 200, 50);
+		
+	private string m_ipAddress = "";
 	
 	private void Start ()
 	{
@@ -67,10 +69,10 @@ public class NetworkManager : MonoBehaviour
 	private void ClientWindow (int p_id)
 	{
 		GUILayout.BeginHorizontal();
-		string ipAddress = GUILayout.TextField("ip address");
+		m_ipAddress = GUILayout.TextField(m_ipAddress, 25);
 		if (GUILayout.Button("Join"))
 		{
-			ConnectToHost(ipAddress);
+			ConnectToHost(m_ipAddress);
 		}
 		GUILayout.EndHorizontal();
 	}

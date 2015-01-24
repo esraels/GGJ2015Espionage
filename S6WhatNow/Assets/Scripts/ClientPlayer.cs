@@ -4,7 +4,12 @@ using System.Collections;
 public class ClientPlayer : MonoBehaviour
 {
 	private Vector3 m_syncPosition;
-		
+
+	private void Awake()
+	{
+		DontDestroyOnLoad(transform.gameObject);
+	}
+
 	private void Update ()
 	{
 		if (Input.GetKeyDown(KeyCode.UpArrow))

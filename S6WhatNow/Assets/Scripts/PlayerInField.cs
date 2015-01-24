@@ -21,6 +21,10 @@ public class PlayerInField : MonoBehaviour {
 	Transform m_aninode;
 	Transform m_callout;
 	Transform m_camera = null;
+	Transform m_audiosource = null;
+
+	SwitchObject m_curActiveSwitch = null;
+	SwitchObject m_nearSwitch = null;
 
 	// Use this for initialization
 	void Start () {
@@ -33,6 +37,9 @@ public class PlayerInField : MonoBehaviour {
 			m_animator = m_aninode.gameObject.GetComponent<Animator>();
 		}
 
+		//m_audiosource = transform.FindChild ("audiosource");
+
+
 		m_callout = transform.FindChild("callout");
 		m_callout.gameObject.SetActive(false); //hide initially
 
@@ -43,6 +50,18 @@ public class PlayerInField : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
+		if(Input.GetKeyUp("k")){
+			if(m_nearSwitch){
+				//activate previous obstacles.
+				if(m_curActiveSwitch) m_curActiveSwitch.ActivateObstacles();
+
+				//deactivate obstacles for current switch
+				m_nearSwitch.DeactivateObstacles();
+				m_curActiveSwitch = m_nearSwitch;
+
+			}
+		}
+
 		//=================================
 		// move the player by user input
 		// note: can collide in walls
@@ -69,7 +88,7 @@ public class PlayerInField : MonoBehaviour {
 		//=================================
 		// set animation based on movement
 		//---------------------------------
-		PlayerAniMove aniValue = 0; //default to idle animation
+		PlayerAniMove aniValue = PlayerAniMove.IDLE; //default to idle animation
 		float facingLeft = 1;
 		if(Mathf.Abs(move.x) > Mathf.Abs(move.y)){
 			if(move.x > 0){
@@ -86,6 +105,16 @@ public class PlayerInField : MonoBehaviour {
 				aniValue = PlayerAniMove.WALK_DOWN;
 		}
 
+		if(aniValue == PlayerAniMove.WALK_UP) audio.Pause();
+		else if(aniValue == PlayerAniMove.WALK_RIGHT) audio.Play();
+
+//		if(aniValue != PlayerAniMove.IDLE){
+//			audio.Play();		
+//		} 
+//		else {
+//			audio.Pause();	
+//		}
+
 		m_animator.SetInteger("move_dir", (int)aniValue);
 		Vector3 scaleVal = m_aninode.localScale;
 		scaleVal.x =  facingLeft * Mathf.Abs(m_aninode.localScale.x);
@@ -94,20 +123,20 @@ public class PlayerInField : MonoBehaviour {
 
 	}
 
-	public void OnGUI(){
-		//=================================
-		// Show passcode via unity gui
-		//---------------------------------
-		if(m_curPasscode != ""){
-			Camera cam = m_camera.GetComponent<Camera>();
-			Vector3 screenPos = cam.WorldToScreenPoint(m_callout.position);
-			screenPos.y = Screen.height - screenPos.y;
-
-			Vector2 pos = new Vector2(screenPos.x + m_PasscodePos.x, screenPos.y - m_PasscodePos.y);
-			GUI.Label(new Rect(pos.x, pos.y, 50, 50), m_curPasscode);
-		}
-
-	}
+//	public void OnGUI(){
+//		//=================================
+//		// Show passcode via unity gui
+//		//---------------------------------
+//		if(m_curPasscode != ""){
+//			Camera cam = m_camera.GetComponent<Camera>();
+//			Vector3 screenPos = cam.WorldToScreenPoint(m_callout.position);
+//			screenPos.y = Screen.height - screenPos.y;
+//
+//			Vector2 pos = new Vector2(screenPos.x + m_PasscodePos.x, screenPos.y - m_PasscodePos.y);
+//			GUI.Label(new Rect(pos.x, pos.y, 50, 50), m_curPasscode);
+//		}
+//
+//	}
 
 	public void ShowPasscode(string p_passcode){
 
@@ -120,5 +149,36 @@ public class PlayerInField : MonoBehaviour {
 		m_curPasscode = "";
 		m_callout.gameObject.SetActive(false);
 	}
+
+	public void BecomeNearTo(GameObject p_go){
+
+		SwitchObject sw = p_go.GetComponent<SwitchObject>();
+		if(sw){
+			if(m_nearSwitch){
+				//compare which is nearer
+				float dist0 = (m_nearSwitch.transform.position - transform.position).sqrMagnitude;
+				float dist1 = (p_go.transform.position - transform.position).sqrMagnitude;
+				if(dist1 < dist0){
+					m_nearSwitch = sw; // set the new near switch
+				}
+			}
+			else {
+				m_nearSwitch = sw;
+			}
+		}
+
+		m_callout.gameObject.SetActive(true);
+	}
+
+	public void BecomeFarTo(GameObject p_go){
+
+		SwitchObject sw = p_go.GetComponent<SwitchObject>();
+		if(sw == m_nearSwitch){
+			m_callout.gameObject.SetActive(false);
+			m_nearSwitch = null;
+		}
+	}
+
+
 
 }
