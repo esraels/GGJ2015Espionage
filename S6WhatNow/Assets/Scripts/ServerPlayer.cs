@@ -4,7 +4,12 @@ using System.Collections;
 public class ServerPlayer : MonoBehaviour
 {
 	private Rect m_controlPanel = new Rect(240, 20, 200, 110);
-	
+
+	private void Awake()
+	{
+		DontDestroyOnLoad(transform.gameObject);
+	}
+
 	private void OnGUI ()
 	{
 		if (NetworkManager.Instance.IsHosting)
