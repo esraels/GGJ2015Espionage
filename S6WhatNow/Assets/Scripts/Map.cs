@@ -9,6 +9,7 @@ public enum MapObjectType
 
 public class Map : MonoBehaviour
 {
+	[SerializeField] private MapObject[] m_mapObjects;
 
 	private void Start ()
 	{
