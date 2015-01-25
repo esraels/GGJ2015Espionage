@@ -17,6 +17,6 @@ public class PlayButton : MonoBehaviour {
 	public void LoadNextStage ()
 	{
 		gameLoader.DestroyTitleScreen();
-		GameFieldManager.LoadStage(1);
+		GameFieldManager.LoadStage(2);
 	}
 }

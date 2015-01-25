@@ -74,7 +74,7 @@ public class PlayerInField : MonoBehaviour {
 		}
 
 
-		if(Input.GetKeyUp("k")){
+		if(Input.GetKeyUp("space")){
 			if(m_nearSwitch){
 				//activate previous obstacles.
 				if(m_curActiveSwitch) m_curActiveSwitch.ActivateObstacles();
