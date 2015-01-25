@@ -57,6 +57,8 @@ public class PlayerInField : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
+		rigidbody2D.velocity = Vector2.zero;
+
 		if (GameFieldManager.activePlayer != m_playerNum) {
 			return;
 		}
@@ -151,11 +153,13 @@ public class PlayerInField : MonoBehaviour {
 		newPosCam.z = m_camera.position.z;
 		
 		m_camera.position = newPosCam;
+		//rigidbody2D.isKinematic = false;
 	}
 
 	public void ShowIdle(){
 		m_animator.SetInteger("move_dir", (int)PlayerAniMove.IDLE);
 		rigidbody2D.velocity = Vector2.zero;
+		//rigidbody2D.isKinematic = true;
 
 	}
 
