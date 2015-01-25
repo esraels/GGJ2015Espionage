@@ -73,15 +73,24 @@ public class SwitchObject : MonoBehaviour {
 		//---------------------------------
 		PlayerInField player = p_collidedObj.gameObject.GetComponent<PlayerInField>();
 		if(player){
-			CircleCollider2D bounds = GetComponent<CircleCollider2D>();
-			Vector2 posP = player.transform.position;
-			Vector2 posG = transform.position;
-			float radius = bounds.radius * transform.localScale.x;
-			
-			if((posP - posG).sqrMagnitude > radius * radius){
-				//m_bPlayerIsNear = false;
-				player.HidePasscode();
-				player.BecomeFarTo(gameObject);
+			CircleCollider2D circBounds = GetComponent<CircleCollider2D>();
+			if(circBounds){
+				Vector2 posP = player.transform.position;
+				Vector2 posG = transform.position;
+				float radius = circBounds.radius * transform.localScale.x;
+				
+				if((posP - posG).sqrMagnitude > radius * radius){
+					//m_bPlayerIsNear = false;
+					player.HidePasscode();
+					player.BecomeFarTo(gameObject);
+				}
+			}
+			BoxCollider2D boxBounds = GetComponent<BoxCollider2D>();
+			if(boxBounds){
+				if(boxBounds.bounds.Contains(transform.position)){
+					player.HidePasscode();
+					player.BecomeFarTo(gameObject);
+				}
 			}
 		}
 	}
