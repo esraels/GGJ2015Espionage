@@ -61,6 +61,17 @@ public class PlayerInField : MonoBehaviour {
 			return;
 		}
 
+		//---quick fix:
+		if(Input.GetKeyUp("1")){
+			Debug.Log("  -- 1 is entered");
+			GameFieldManager.FocusToPlayer(PlayerInField.PlayerID.ONE);
+		}
+		else if(Input.GetKeyUp("2")){
+			Debug.Log("  -- 2 is entered");
+			GameFieldManager.FocusToPlayer(PlayerInField.PlayerID.TWO);
+		}
+
+
 		if(Input.GetKeyUp("k")){
 			if(m_nearSwitch){
 				//activate previous obstacles.

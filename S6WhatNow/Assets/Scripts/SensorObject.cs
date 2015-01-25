@@ -36,13 +36,13 @@ public class SensorObject : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		//???: test code only
-		if(Input.GetKeyUp(keyToTurnOn)){
-			OpenSensor();
-		}
-		else if(Input.GetKeyUp(keyToTurnOff)){
-			CloseSensor();
-		}
+//		//???: test code only
+//		if(Input.GetKeyUp(keyToTurnOn)){
+//			OpenSensor();
+//		}
+//		else if(Input.GetKeyUp(keyToTurnOff)){
+//			CloseSensor();
+//		}
 	}
 
 	void OnTriggerEnter2D(Collider2D p_collidedObj){

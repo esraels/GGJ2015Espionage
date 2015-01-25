@@ -25,13 +25,13 @@ public class DoorObject : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
-		//???: test code only
-		if(Input.GetKeyUp("z")){
-			OpenDoor();
-		}
-		else if(Input.GetKeyUp("x")){
-			CloseDoor();
-		}
+//		//???: test code only
+//		if(Input.GetKeyUp("z")){
+//			OpenDoor();
+//		}
+//		else if(Input.GetKeyUp("x")){
+//			CloseDoor();
+//		}
 
 	}
 

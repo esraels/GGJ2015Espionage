@@ -23,16 +23,23 @@ public class GameFieldManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
-		if(Input.GetKeyUp("1")){
-			FocusToPlayer(PlayerInField.PlayerID.ONE);
-		}
-		else if(Input.GetKeyUp("2")){
-			FocusToPlayer(PlayerInField.PlayerID.TWO);
-		}
+		//note: this is not working
+//		Debug.Log("GameFieldManager is updating");
+//
+//		if(Input.GetKeyUp("1")){
+//			Debug.Log("  -- 1 is entered");
+//			FocusToPlayer(PlayerInField.PlayerID.ONE);
+//		}
+//		else if(Input.GetKeyUp("2")){
+//			Debug.Log("  -- 2 is entered");
+//			FocusToPlayer(PlayerInField.PlayerID.TWO);
+//		}
 
 	}
 
-	static void FocusToPlayer(PlayerInField.PlayerID p_playerNum){
+	public static void FocusToPlayer(PlayerInField.PlayerID p_playerNum){
+
+		Debug.Log ("Focusing on object with tag:"+"Hero" + (int)p_playerNum);
 
 		PlayerInField player = GameObject.FindWithTag("Hero" + (int)p_playerNum).GetComponent<PlayerInField>();
 		if (player && player != m_curPlayer) {
