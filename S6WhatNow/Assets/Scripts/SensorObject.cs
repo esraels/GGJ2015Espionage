@@ -48,27 +48,34 @@ public class SensorObject : MonoBehaviour {
 	void OnTriggerEnter2D(Collider2D p_collidedObj){
 		PlayerInField player = p_collidedObj.gameObject.GetComponent<PlayerInField>();
 		if(player){
-			player.ShowPasscode(m_passcode);
+			GameFieldManager.ReloadStage();
 		}
 	}
-	
-	void OnTriggerExit2D(Collider2D p_collidedObj){
-		//=================================
-		// If player goes outside the range 
-		//   of this door, hide passcode.
-		//---------------------------------
-		PlayerInField player = p_collidedObj.gameObject.GetComponent<PlayerInField>();
-		if(player){
-			CircleCollider2D bounds = GetComponent<CircleCollider2D>();
-			Vector2 posP = player.transform.position;
-			Vector2 posG = transform.position;
-			float radius = bounds.radius * transform.localScale.x;
-			
-			if((posP - posG).sqrMagnitude > radius * radius){
-				player.HidePasscode();
-			}
-		}
-	}
+
+//	void OnTriggerEnter2D(Collider2D p_collidedObj){
+//		PlayerInField player = p_collidedObj.gameObject.GetComponent<PlayerInField>();
+//		if(player){
+//			player.ShowPasscode(m_passcode);
+//		}
+//	}
+//	
+//	void OnTriggerExit2D(Collider2D p_collidedObj){
+//		//=================================
+//		// If player goes outside the range 
+//		//   of this door, hide passcode.
+//		//---------------------------------
+//		PlayerInField player = p_collidedObj.gameObject.GetComponent<PlayerInField>();
+//		if(player){
+//			CircleCollider2D bounds = GetComponent<CircleCollider2D>();
+//			Vector2 posP = player.transform.position;
+//			Vector2 posG = transform.position;
+//			float radius = bounds.radius * transform.localScale.x;
+//			
+//			if((posP - posG).sqrMagnitude > radius * radius){
+//				player.HidePasscode();
+//			}
+//		}
+//	}
 
 	public void OpenSensor(){
 		m_animator.SetInteger("SensorState", (int)State.TURNING_ON );

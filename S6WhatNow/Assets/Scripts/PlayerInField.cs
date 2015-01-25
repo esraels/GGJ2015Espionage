@@ -11,6 +11,12 @@ public class PlayerInField : MonoBehaviour {
 		WALK_LEFT
 	};
 
+	public enum PlayerID{
+		ONE, TWO
+	}
+
+	public PlayerID m_playerNum = PlayerID.ONE; //
+
 	public float m_speed = 250;
 	//public float m_speedLimit = 5;
 	public Vector2 m_PasscodePos = new Vector2(0,0);
@@ -105,8 +111,8 @@ public class PlayerInField : MonoBehaviour {
 				aniValue = PlayerAniMove.WALK_DOWN;
 		}
 
-		if(aniValue == PlayerAniMove.WALK_UP) audio.Pause();
-		else if(aniValue == PlayerAniMove.WALK_RIGHT) audio.Play();
+//		if(aniValue == PlayerAniMove.WALK_UP) audio.Pause();
+//		else if(aniValue == PlayerAniMove.WALK_RIGHT) audio.Play();
 
 //		if(aniValue != PlayerAniMove.IDLE){
 //			audio.Play();		
@@ -123,6 +129,16 @@ public class PlayerInField : MonoBehaviour {
 
 	}
 
+//	void OnTriggerCollider2D(Collider2D p_collidedObj){
+//		SensorObject sensor = p_collidedObj.GetComponent<SensorObject>();
+//		if(sensor){
+//			Debug.Log("The Player hit the sensor");
+//			//TODO: show some effects before reloading
+//			GameFieldManager.ReloadStage();
+//		}
+//	
+//	}
+
 //	public void OnGUI(){
 //		//=================================
 //		// Show passcode via unity gui
@@ -137,6 +153,10 @@ public class PlayerInField : MonoBehaviour {
 //		}
 //
 //	}
+
+	public PlayerID GetPlayerNum(){
+		return m_playerNum;
+	}
 
 	public void ShowPasscode(string p_passcode){
 
