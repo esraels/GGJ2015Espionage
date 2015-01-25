@@ -15,7 +15,7 @@ public class GameFieldManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-		LoadStage(1); //load the 1st stage.
+		//LoadStage(1); //load the 1st stage.
 
 
 	}

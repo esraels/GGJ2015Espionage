@@ -36,7 +36,8 @@ public class PlayerInField : MonoBehaviour {
 	void Start () {
 	
 		if(m_camera == null){
-			m_camera = GameObject.Find("Camera").transform;
+			m_camera = GameObject.Find("Main Camera").transform;
+			m_camera.GetComponent<Camera>().orthographicSize = 5;
 		}
 		if(m_animator == null){
 			m_aninode = transform.FindChild("animations");
