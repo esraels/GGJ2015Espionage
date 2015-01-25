@@ -12,7 +12,7 @@ public class PlayerInField : MonoBehaviour {
 	};
 
 	public enum PlayerID{
-		ONE, TWO
+		ONE=1, TWO
 	}
 
 	public PlayerID m_playerNum = PlayerID.ONE; //
@@ -56,6 +56,10 @@ public class PlayerInField : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
+		if (GameFieldManager.activePlayer != m_playerNum) {
+			return;
+		}
+
 		if(Input.GetKeyUp("k")){
 			if(m_nearSwitch){
 				//activate previous obstacles.
@@ -86,9 +90,10 @@ public class PlayerInField : MonoBehaviour {
 		//=================================
 		// make the camera follow the player
 		//---------------------------------
+		//FocusToCamera();
 		Vector3 newPosCam = transform.position;
 		newPosCam.z = m_camera.position.z;
-
+		
 		m_camera.position = newPosCam;
 
 		//=================================
@@ -126,6 +131,19 @@ public class PlayerInField : MonoBehaviour {
 		scaleVal.x =  facingLeft * Mathf.Abs(m_aninode.localScale.x);
 		m_aninode.localScale = scaleVal;
 
+
+	}
+
+	public void FocusToCamera(){
+		Vector3 newPosCam = transform.position;
+		newPosCam.z = m_camera.position.z;
+		
+		m_camera.position = newPosCam;
+	}
+
+	public void ShowIdle(){
+		m_animator.SetInteger("move_dir", (int)PlayerAniMove.IDLE);
+		rigidbody2D.velocity = Vector2.zero;
 
 	}
 
