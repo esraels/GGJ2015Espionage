@@ -72,9 +72,10 @@ public class PlayerInField : MonoBehaviour {
 			Debug.Log("  -- 2 is entered");
 			GameFieldManager.FocusToPlayer(PlayerInField.PlayerID.TWO);
 		}
-
-
-		if(Input.GetKeyUp("space")){
+		else if(Input.GetKeyUp(KeyCode.R)){
+			GameFieldManager.ReloadStage();
+		}
+		else if(Input.GetKeyUp("space")){
 			if(m_nearSwitch){
 				//activate previous obstacles.
 				if(m_curActiveSwitch) m_curActiveSwitch.ActivateObstacles();
@@ -84,6 +85,15 @@ public class PlayerInField : MonoBehaviour {
 				m_curActiveSwitch = m_nearSwitch;
 
 			}
+		}
+		//---debug/cheat code
+		else if(Input.GetKeyUp("9")){
+			Debug.Log("  -- entering level1");
+			GameFieldManager.LoadStage(1);
+		}
+		else if(Input.GetKeyUp("0")){
+			Debug.Log("  -- entering level 2");
+			GameFieldManager.LoadStage(2);
 		}
 
 		//=================================
